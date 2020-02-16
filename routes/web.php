@@ -23,6 +23,19 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/user', 'HomeController@index')->name('user');
+
+Route::group(['Middleware' => 'App\Https\AdminMiddleware'], function() 
+{
+    Route::match(['get','post'], '/adminOnlyPage/', 'HomeController@admin');
+});
+
+Route::group(['Middleware' => 'App\Https\AdminMiddleware'], function() 
+{
+    Route::match(['get','post'], '/memberOnlyPage/', 'HomeController@member');
+});
+
+
 Route::get('/users', function () {
     return view('users_liste');
 });
